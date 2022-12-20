@@ -1,0 +1,23 @@
+@import "/src/style/utils";
+
+$button-height: 34px;
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100px;
+  height: $button-height;
+  background-color: $primary-color;
+  border-radius: $button-height/2;
+  transition: background-color $transtion-duration;
+
+  &:hover {
+    background-color: $button-hover-color;
+    cursor: pointer;
+  }
+
+  &:disabled {
+    background-color: $button-inactive-color;
+  }
+}

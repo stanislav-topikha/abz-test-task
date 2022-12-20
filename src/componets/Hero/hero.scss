@@ -1,0 +1,32 @@
+@import "/src/style/utils";
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 500px;
+  padding: 40px $container-padding;
+  margin: 0 #{-$container-padding};
+  background: (
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    url(../../static/images/hero-img.jpeg)
+  );
+  background-position: center, 50% 80%;
+  background-size: cover, auto 200%;
+
+  &__title {
+    @include title;
+    margin-bottom: 21px;
+    text-align: center;
+    color: $light-color;
+  }
+
+  &__text {
+    margin-bottom: 32px;
+    text-align: center;
+    color: $light-color;
+  }
+}

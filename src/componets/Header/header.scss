@@ -1,0 +1,16 @@
+@import "/src/style/utils";
+
+.header {
+  background-color: $light-color;
+
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 0;
+  }
+  &__buttons {
+    display: flex;
+    gap: 10px;
+  }
+}
