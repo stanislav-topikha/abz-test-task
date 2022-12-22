@@ -1,8 +1,20 @@
-@import "/src/style/utils";
+@import "/src/style/general";
 
 .container {
   max-width: $container-width-limit;
   width: 100%;
   margin: 0 auto;
-  padding: 0 $container-padding;
+  padding: 0 var(--container-padding);
+
+  @include tablet {
+    --container-padding: 32px;
+  }
+
+  @include laptop {
+    --container-padding: 60px;
+  }
+
+  @include desktop {
+    --container-padding: 0;
+  }
 }

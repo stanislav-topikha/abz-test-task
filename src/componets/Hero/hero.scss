@@ -1,7 +1,8 @@
-@import "/src/style/utils";
+@import "/src/style/general";
 
 .hero {
-  margin: 0 #{-$container-padding};
+  min-height: 500px;
+  margin: 0 calc(var(--container-padding) * -1);
   background: (
     linear-gradient(
       rgba(0, 0, 0, 0.5),
@@ -11,6 +12,10 @@
   );
   background-position: center, 50% 80%;
   background-size: cover, auto 200%;
+
+  @include laptop {
+    min-width: 650px;
+  }
 
   &__content {
     display: flex;
@@ -24,7 +29,6 @@
   &__title {
     @include title;
     margin-bottom: 21px;
-    text-align: center;
     color: $light-color;
   }
 

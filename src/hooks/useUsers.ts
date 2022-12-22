@@ -4,7 +4,8 @@ import { User } from '../types/api';
 
 interface Result {
   users: User[];
-  loadMore: VoidFunction;
+  loadMoreUsers: VoidFunction;
+  isLastPage: boolean;
 }
 
 export const useUsers = (): Result => {
@@ -12,24 +13,34 @@ export const useUsers = (): Result => {
   const [pagination, setPagination] = useState({
     count: 6,
     page: 1,
+    isLastPage: false,
   });
 
-  const loadUsers = async () => {
-    const usersFromServer = await getUsers(
+  const loadMoreUsers = async () => {
+    if (pagination.isLastPage) {
+      return;
+    }
+
+    const { users: usersFromServer, isLastPage } = await getUsers(
       pagination.page,
       pagination.count,
     );
 
     setUsers((prev) => [...prev, ...usersFromServer]);
-    setPagination(({ count, page }) => ({ count, page: page + 1 }));
+    setPagination(({ count, page }) => ({
+      count,
+      page: page + 1,
+      isLastPage,
+    }));
   };
 
   useEffect(() => {
-    loadUsers();
+    loadMoreUsers();
   }, []);
 
   return {
     users,
-    loadMore: loadUsers,
+    loadMoreUsers,
+    isLastPage: pagination.isLastPage,
   };
 };

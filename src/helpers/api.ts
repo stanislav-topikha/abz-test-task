@@ -17,8 +17,17 @@ interface UsersFromServer {
   total_pages: number;
   total_users: number;
   count: number;
+  links: {
+    next_url: string | null,
+    prev_url: string | null,
+  },
   users: User[];
   message?: string;
+}
+
+interface GetUserResult {
+  users: User[];
+  isLastPage: boolean;
 }
 
 const API_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1';
@@ -57,11 +66,14 @@ export const getUser = async (id: number): Promise<User> => {
   }
 };
 
-export const getUsers = async (page: number, count: number): Promise<User[]> => {
+export const getUsers = async (page: number, count: number): Promise<GetUserResult> => {
   try {
-    const { users } = await fetchAPI<UsersFromServer>(`/users?page=${page}&count=${count}`);
+    const { users, links } = await fetchAPI<UsersFromServer>(`/users?page=${page}&count=${count}`);
 
-    return users;
+    return {
+      users,
+      isLastPage: !links.next_url,
+    };
   } catch {
     throw new Error('Unabalbe to get users');
   }

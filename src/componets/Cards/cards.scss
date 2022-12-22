@@ -1,5 +1,23 @@
+@import "/src/style/general";
+
 .cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 29px;
+  &__title {
+    margin-bottom: 50px;
+    @include title;
+  }
+
+  &__cards {
+    display: grid;
+    gap: 20px;
+
+    @include tablet {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @include laptop {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 29px;
+    }
+  }
 }

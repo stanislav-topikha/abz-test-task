@@ -1,16 +1,26 @@
-@import "/src/style/utils";
+@import "/src/style/general";
+
+$padding: 20px;
 
 .card {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  width: 100%;
-  padding: 20px;
+  padding: $padding;
   border-radius: 10px;
   background-color: $light-color;
 
   &__img {
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
+  }
+
+  &__text {
+    max-width: calc(100% - $padding * 2);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }

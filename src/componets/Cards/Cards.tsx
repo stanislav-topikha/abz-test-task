@@ -9,11 +9,17 @@ interface Props {
 
 export const Cards:React.FC<Props> = ({ users }) => (
   <div className="cards">
-    {users.map((user) => (
-      <Card
-        user={user}
-        key={user.id}
-      />
-    ))}
+    <h2 className="cards__title">
+      Working with GET request
+    </h2>
+
+    <div className="cards__cards">
+      {users.map((user) => (
+        <Card
+          user={user}
+          key={user.id}
+        />
+      ))}
+    </div>
   </div>
 );

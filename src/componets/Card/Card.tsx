@@ -22,14 +22,20 @@ export const Card: React.FC<Props> = ({
       alt={`${name}`}
     />
 
-    <h3>{name}</h3>
-    <p>{position}</p>
+    <h3 className="card__text">{name}</h3>
+    <p className="card__text">{position}</p>
 
-    <a href={`mailto:${email}`}>
+    <a
+      className="card__text"
+      href={`mailto:${email}`}
+    >
       {email}
     </a>
 
-    <a href={`tel:${phone}`}>
+    <a
+      className="card__text"
+      href={`tel:${phone}`}
+    >
       {phone}
     </a>
   </div>

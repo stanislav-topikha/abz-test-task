@@ -1,4 +1,8 @@
-@import "/src/style/utils";
+@import "/src/style/general";
+
+:root {
+  --container-padding: 16px;
+}
 
 html {
   font-family: Nunito, Helvetica, sans-serif;
