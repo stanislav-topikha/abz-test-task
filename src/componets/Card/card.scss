@@ -1,0 +1,16 @@
+@import "/src/style/utils";
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: $light-color;
+
+  &__img {
+    border-radius: 50%;
+  }
+}

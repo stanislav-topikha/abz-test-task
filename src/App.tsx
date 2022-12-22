@@ -1,11 +1,24 @@
 import React from 'react';
 import './app.scss';
-import { Header } from './componets/Header/Header';
+import { Cards } from './componets/Cards/Cards';
+import { Container } from './componets/Container/Container';
+import { Hero } from './componets/Hero/Hero';
+import { Nav } from './componets/Nav/Nav';
+import { useUsers } from './hooks/useUsers';
 
 function App() {
+  const { users } = useUsers();
+
   return (
     <div className="app">
-      <Header />
+      <header>
+        <Nav />
+        <Hero />
+      </header>
+
+      <Container>
+        <Cards users={users} />
+      </Container>
     </div>
   );
 }

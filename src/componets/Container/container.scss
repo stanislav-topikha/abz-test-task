@@ -1,0 +1,8 @@
+@import "/src/style/utils";
+
+.container {
+  max-width: $container-width-limit;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $container-padding;
+}
