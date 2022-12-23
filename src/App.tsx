@@ -21,11 +21,13 @@ function App() {
         <Cards users={users} />
 
         {!isLastPage && (
-          <Button
-            onClick={() => loadMoreUsers()}
-          >
-            Show more
-          </Button>
+          <div className="app__button">
+            <Button
+              onClick={() => loadMoreUsers()}
+            >
+              Show more
+            </Button>
+          </div>
         )}
       </Container>
     </div>

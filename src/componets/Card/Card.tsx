@@ -1,6 +1,9 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
+import React, { useState } from 'react';
 import { User } from '../../types/api';
+import backupAvatar from '../../static/images/photo-cover.svg';
 import './card.scss';
+import { FollowingTooltip } from '../FollowingTooltip/FollowingTooltip';
 
 interface Props {
   user: User;
@@ -14,29 +17,53 @@ export const Card: React.FC<Props> = ({
     photo,
     position,
   },
-}) => (
-  <div className="card">
-    <img
-      className="card__img"
-      src={photo}
-      alt={`${name}`}
-    />
+}) => {
+  const [imageSrc, setImageSrc] = useState(photo);
+  const [tooltipTitle, setTooltipText] = useState<string | null>(null);
 
-    <h3 className="card__text">{name}</h3>
-    <p className="card__text">{position}</p>
+  const handleFaileImageLoading = () => {
+    if (imageSrc === backupAvatar) {
+      return;
+    }
 
-    <a
-      className="card__text"
-      href={`mailto:${email}`}
-    >
-      {email}
-    </a>
+    setImageSrc(backupAvatar);
+  };
 
-    <a
-      className="card__text"
-      href={`tel:${phone}`}
-    >
-      {phone}
-    </a>
-  </div>
-);
+  return (
+    <div className="card">
+      {tooltipTitle && (
+        <FollowingTooltip
+          title={tooltipTitle}
+        />
+      )}
+
+      <img
+        className="card__img"
+        src={imageSrc}
+        alt={name}
+        onError={handleFaileImageLoading}
+      />
+
+      <h3 className="card__text">{name}</h3>
+      <p className="card__text">{position}</p>
+
+      <a
+        className="card__text"
+        href={`mailto:${email}`}
+        onMouseOver={(e) => setTooltipText(e.currentTarget.text)}
+        onMouseLeave={() => setTooltipText(null)}
+      >
+        {email}
+      </a>
+
+      <a
+        className="card__text"
+        href={`tel:${phone}`}
+        onMouseOver={(e) => setTooltipText(e.currentTarget.text)}
+        onMouseLeave={() => setTooltipText(null)}
+      >
+        {phone}
+      </a>
+    </div>
+  );
+};

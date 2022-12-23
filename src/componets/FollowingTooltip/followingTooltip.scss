@@ -1,0 +1,9 @@
+@import "/src/style/general";
+
+.tooltip {
+  position: fixed;
+  padding: 3px 16px;
+  color: $light-color;
+  background: $almost-black-color;
+  border-radius: 4px;
+}

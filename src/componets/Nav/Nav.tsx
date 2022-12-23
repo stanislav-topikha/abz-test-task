@@ -1,6 +1,6 @@
 import React from 'react';
 import './nav.scss';
-import { LogoIcon } from '../Logo/Logo';
+import LogoIcon from '../../static/images/logo.svg';
 import { Button } from '../Button/Button';
 
 import { Container } from '../Container/Container';
@@ -10,7 +10,10 @@ export const Nav: React.FC = () => (
     <Container>
       <div className="nav__content">
         <a href="/">
-          <LogoIcon />
+          <img
+            src={LogoIcon}
+            alt="logo"
+          />
         </a>
 
         <div className="nav__buttons">

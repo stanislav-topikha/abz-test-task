@@ -5,4 +5,10 @@
   flex-direction: column;
   gap: 140px;
   background-color: $background-color;
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
 }
