@@ -45,25 +45,25 @@ export const Card: React.FC<Props> = ({
       />
 
       <h3 className="card__text">{name}</h3>
-      <p className="card__text">{position}</p>
-
-      <a
-        className="card__text"
-        href={`mailto:${email}`}
-        onMouseOver={(e) => setTooltipText(e.currentTarget.text)}
-        onMouseLeave={() => setTooltipText(null)}
-      >
-        {email}
-      </a>
-
-      <a
-        className="card__text"
-        href={`tel:${phone}`}
-        onMouseOver={(e) => setTooltipText(e.currentTarget.text)}
-        onMouseLeave={() => setTooltipText(null)}
-      >
-        {phone}
-      </a>
+      <div className="card__wrapper">
+        <p className="card__text">{position}</p>
+        <a
+          className="card__text"
+          href={`mailto:${email}`}
+          onMouseOver={(e) => setTooltipText(e.currentTarget.text)}
+          onMouseLeave={() => setTooltipText(null)}
+        >
+          {email}
+        </a>
+        <a
+          className="card__text"
+          href={`tel:${phone}`}
+          onMouseOver={(e) => setTooltipText(e.currentTarget.text)}
+          onMouseLeave={() => setTooltipText(null)}
+        >
+          {phone}
+        </a>
+      </div>
     </div>
   );
 };
