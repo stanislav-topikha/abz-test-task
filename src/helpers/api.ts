@@ -1,4 +1,4 @@
-import { Token, User } from '../types/api';
+import { Position, Token, User } from '../types/api';
 
 interface TokenFromServer {
   succes: boolean;
@@ -22,6 +22,12 @@ interface UsersFromServer {
     prev_url: string | null,
   },
   users: User[];
+  message?: string;
+}
+
+interface PositionsFromServer {
+  success: boolean;
+  positions: Position[];
   message?: string;
 }
 
@@ -76,5 +82,15 @@ export const getUsers = async (page: number, count: number): Promise<GetUserResu
     };
   } catch {
     throw new Error('Unabalbe to get users');
+  }
+};
+
+export const getPositions = async (): Promise<Position[]> => {
+  try {
+    const { positions } = await fetchAPI<PositionsFromServer>('/positions');
+
+    return positions;
+  } catch {
+    throw new Error('Unabalbe to get positions');
   }
 };

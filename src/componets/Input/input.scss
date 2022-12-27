@@ -6,8 +6,8 @@
   &__field {
     display: block;
     width: 100%;
-    margin-bottom: 4px;
-    padding: 13px 16px;
+    height: 54px;
+    padding: 0 16px;
     border: 1px solid $light-gray-color;
     border-radius: 4px;
 
@@ -28,6 +28,9 @@
   }
 
   &__info {
+    position: absolute;
+    bottom: -4px;
+    transform: translateY(100%);
     margin-left: 11px;
     size: $font-size-small;
     color: $gray-color;

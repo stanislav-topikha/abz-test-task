@@ -1,16 +1,11 @@
 import React from 'react';
 import './app.scss';
-import { Button } from './componets/Button/Button';
-import { Cards } from './componets/Cards/Cards';
-import { Container } from './componets/Container/Container';
 import { Hero } from './componets/Hero/Hero';
 import { Form } from './componets/Form/Form';
 import { Nav } from './componets/Nav/Nav';
-import { useUsers } from './hooks/useUsers';
+import { CardsBlock } from './componets/CardsBlock/CardsBlock';
 
 function App() {
-  const { users, loadMoreUsers, isLastPage, loading } = useUsers();
-
   return (
     <div className="app">
       <header>
@@ -18,23 +13,9 @@ function App() {
         <Hero />
       </header>
 
-      <Container>
-        <Cards users={users} />
+      <CardsBlock />
 
-        {!isLastPage && (
-          <div className="app__button">
-            <Button
-              onClick={() => loadMoreUsers()}
-            >
-              Show more
-            </Button>
-          </div>
-        )}
-      </Container>
-
-      <Form
-        onSubmit={loadMoreUsers}
-      />
+      <Form />
     </div>
   );
 }

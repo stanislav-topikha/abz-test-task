@@ -12,3 +12,8 @@ export interface User {
   position_id: number;
   photo: string;
 }
+
+export interface Position {
+  id: number;
+  name: string;
+}

@@ -10,5 +10,19 @@
   flex-direction: column;
   max-width: 380px;
   margin: 0 auto;
-  gap: 50px;
+
+  &__radio-buttons {
+    margin-bottom: 40px;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    margin-bottom: 43px;
+  }
+
+  &__radio-title {
+    margin-bottom: 11px;
+  }
 }

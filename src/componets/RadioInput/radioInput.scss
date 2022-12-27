@@ -1,0 +1,18 @@
+.radio-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 7px;
+  cursor: pointer;
+
+  &__input {
+    height: 20px;
+    aspect-ratio: 1/1;
+
+    background-image: url(../../static/images/radio-unchecked.svg);
+
+    &:checked {
+      background-image: url(../../static/images/radio-checked.svg);
+    }
+  }
+}
