@@ -35,10 +35,6 @@ export const Input: React.FC<Props> = (props) => {
   const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFocused(false);
 
-    if (!required) {
-      return;
-    }
-
     const isValid = Boolean(e.target.value.trim()) && validator(e.target.value);
 
     if (!isValid) {
@@ -55,7 +51,7 @@ export const Input: React.FC<Props> = (props) => {
         { 'input--failed': error },
       )}
     >
-      {shouldShowInfo && (
+      {(shouldShowInfo || Boolean(value)) && (
         <div className="input__label">
           {placeholder}
         </div>
@@ -68,6 +64,7 @@ export const Input: React.FC<Props> = (props) => {
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onInput={handleBlur} // autocomplete check
         required={required}
         {...rest}
       />

@@ -23,17 +23,17 @@ export const CardsBlock: React.FC = () => {
       <Cards users={users} />
 
       <div className="app__button">
-        {loading && (
-          <Loader size={40} />
-        )}
+        <Button
+          onClick={() => loadMoreUsers()}
+          disabled={!shouldShowButton}
+        >
+          {loading ? (
+            <Loader size={16} />
+          ) : (
+            'Show more'
+          )}
+        </Button>
 
-        {shouldShowButton && (
-          <Button
-            onClick={() => loadMoreUsers()}
-          >
-            Show more
-          </Button>
-        )}
       </div>
 
     </Container>

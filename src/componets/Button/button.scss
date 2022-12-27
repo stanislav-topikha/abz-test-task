@@ -18,6 +18,8 @@ $button-height: 34px;
   }
 
   &:disabled {
+    cursor: not-allowed;
+    color: $light-color;
     background-color: $button-inactive-color;
   }
 }

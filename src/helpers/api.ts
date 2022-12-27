@@ -36,6 +36,17 @@ interface GetUserResult {
   isLastPage: boolean;
 }
 
+interface SendUserOptions {
+  token: string;
+  user: {
+    name: string;
+    email: string;
+    phone: string;
+    position_id: number;
+    photo: File;
+  }
+}
+
 const API_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1';
 
 const fetchAPI = async <T>(endpoint: string, init?: RequestInit) => {
@@ -90,6 +101,23 @@ export const getPositions = async (): Promise<Position[]> => {
     const { positions } = await fetchAPI<PositionsFromServer>('/positions');
 
     return positions;
+  } catch {
+    throw new Error('Unabalbe to get positions');
+  }
+};
+
+export const sendUser = async ({
+  token,
+  user,
+}: SendUserOptions) => {
+  try {
+    await fetchAPI('/users', {
+      method: 'POST',
+      headers: {
+        Token: token,
+      },
+      body: JSON.stringify(user),
+    });
   } catch {
     throw new Error('Unabalbe to get positions');
   }
