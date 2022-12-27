@@ -6,6 +6,7 @@ import { Container } from '../Container/Container';
 import { usePositions } from '../../hooks/usePositions';
 import { Loader } from '../Loader/Loader';
 import { RadioInput } from '../RadioInput/RadioInput';
+import { FileInput } from '../FileInput/FileInput';
 
 export const Form: React.FC = () => {
   const { positions, loading } = usePositions();
@@ -75,6 +76,14 @@ export const Form: React.FC = () => {
               defaultChecked={i === 0}
             />
           ))}
+        </div>
+
+        <div>
+          <FileInput
+            validator={() => false}
+            errorMessage="Error: jpg/jpeg, less then 5mb, at least 70x70"
+            placeholder="Upload your photo"
+          />
         </div>
       </form>
     </Container>

@@ -1,0 +1,64 @@
+@import "/src/style/general";
+
+.file-input {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 54px;
+
+
+  &::before {
+    display: flex;
+    content: "Upload";
+    padding-left: 14px;
+    align-items: center;
+    height: 100%;
+    width: 83px;
+
+    border: 1px solid $almost-black-color;
+    border-radius: 4px 0 0 4px;
+  }
+
+  &::after {
+    content: attr(data-placeholder);
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+
+    height: 100%;
+    padding-left: 16px;
+
+    border: 1px solid $light-gray-color;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+
+    color: $gray-color;
+  }
+
+  &[data-filled="true"] {
+    &::after {
+      color: inherit;
+    }
+  }
+
+  &--failed {
+    &::before,
+    &::after {
+      border-color: $error-color;
+      border-width: 2px;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    bottom: -4px;
+    transform: translateY(100%);
+    margin-left: 11px;
+    size: $font-size-small;
+    color: $error-color;
+  }
+
+  &__field {
+    display: none;
+  }
+}
