@@ -83,6 +83,7 @@ export const Form: React.FC = () => {
             validator={() => false}
             errorMessage="Error: jpg/jpeg, less then 5mb, at least 70x70"
             placeholder="Upload your photo"
+            accept=".jpg, .jpeg"
           />
         </div>
       </form>
