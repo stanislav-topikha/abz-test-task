@@ -11,25 +11,33 @@ React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement
   validator: (value: string) => boolean
 }
 
-export const Input: React.FC<Props> = (props) => {
-  const {
-    required, validator, errorMessage, tipMessage, placeholder, ...rest
-  } = props;
-
+export const Input: React.FC<Props> = ({
+  validator, errorMessage, tipMessage, placeholder, ...rest
+}) => {
+  const [focused, setFocused] = useState(false);
   const [error, setError] = useState(false);
 
-  const handleFocus = () => {
-    if (error) {
-      setError(false);
-    }
+  const validateInput = (value: string) => {
+    const isValid = Boolean(value.trim()) && validator(value);
+
+    setError(!isValid);
   };
 
-  const handleBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
-    const isValid = Boolean(e.target.value.trim()) && validator(e.target.value);
+  const handleFocus = () => setFocused(true);
 
-    if (!isValid) {
-      setError(true);
+  const handleBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
+    setFocused(false);
+    validateInput(e.currentTarget.value);
+  };
+
+  const handleInput: React.FormEventHandler<HTMLInputElement> = (e) => {
+    if (focused) {
+      setError(false);
+
+      return;
     }
+
+    validateInput(e.currentTarget.value);
   };
 
   return (
@@ -46,10 +54,9 @@ export const Input: React.FC<Props> = (props) => {
       <input
         className="input__field"
         placeholder={placeholder}
+        onInput={handleInput}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        onInput={handleBlur} // autocomplete check
-        required={required}
         {...rest}
       />
 
