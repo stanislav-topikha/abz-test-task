@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 import { Position, Token, User } from '../types/api';
 
 interface TokenFromServer {
@@ -42,7 +44,7 @@ interface SendUserOptions {
     name: string;
     email: string;
     phone: string;
-    position_id: number;
+    position_id: string;
     photo: File;
   }
 }
@@ -54,7 +56,12 @@ const fetchAPI = async <T>(endpoint: string, init?: RequestInit) => {
 
   const data = await response.json();
 
-  if (response.status !== 200 || !data?.success) {
+  const successStatuses = [
+    200,
+    201,
+  ];
+
+  if (!successStatuses.includes(response.status) || !data?.success) {
     throw new Error(
       `Failed to fetch, code ${response.status} status ${response.statusText}: ${data?.message}`,
     );
@@ -110,15 +117,19 @@ export const sendUser = async ({
   token,
   user,
 }: SendUserOptions) => {
-  try {
-    await fetchAPI('/users', {
-      method: 'POST',
-      headers: {
-        Token: token,
-      },
-      body: JSON.stringify(user),
-    });
-  } catch {
-    throw new Error('Unabalbe to get positions');
+  const form = new FormData();
+
+  let key: keyof typeof user;
+
+  for (key in user) {
+    form.append(key, user[key]);
   }
+
+  await fetchAPI('/users', {
+    method: 'POST',
+    headers: {
+      Token: token,
+    },
+    body: form,
+  });
 };

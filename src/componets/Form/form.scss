@@ -1,10 +1,5 @@
 @import "/src/style/general";
 
-.title {
-  margin-bottom: 50px;
-  @include title;
-}
-
 .form {
   display: flex;
   flex-direction: column;

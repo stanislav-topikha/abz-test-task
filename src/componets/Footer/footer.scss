@@ -1,0 +1,10 @@
+@import "../../style/general";
+
+.footer {
+  margin-bottom: 100px;
+
+  &__title {
+    @include title;
+    margin-bottom: 50px;
+  }
+}

@@ -11,22 +11,21 @@ React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement
   validator: (value: File) => Promise<boolean>
 }
 
-export const FileInput: React.FC<Props> = (props) => {
-  const {
-    required, validator, errorMessage, placeholder, ...rest
-  } = props;
+export const FileInput: React.FC<Props> = ({
+  required, validator, errorMessage, placeholder, ...rest
+}) => {
   const [value, setValue] = useState<string>('');
   const [error, setError] = useState(false);
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+  const handleInput: React.FormEventHandler<HTMLInputElement> = async (e) => {
+    setValue(e.currentTarget.value);
 
-    if (!e.target.value || !e.target.files) {
+    if (!e.currentTarget.value || !e.currentTarget.files) {
       setError(true);
       return;
     }
 
-    const isValid = await validator(e.target.files[0]);
+    const isValid = await validator(e.currentTarget.files[0]);
 
     setError(!isValid);
   };
@@ -48,7 +47,7 @@ export const FileInput: React.FC<Props> = (props) => {
         value={value}
         type="file"
         className="file-input__field"
-        onChange={handleChange}
+        onInput={handleInput}
         required={required}
         {...rest}
       />

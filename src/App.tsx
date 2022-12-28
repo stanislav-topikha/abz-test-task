@@ -1,9 +1,9 @@
 import React from 'react';
 import './app.scss';
 import { Hero } from './componets/Hero/Hero';
-import { Form } from './componets/Form/Form';
 import { Nav } from './componets/Nav/Nav';
-import { CardsBlock } from './componets/CardsBlock/CardsBlock';
+import { Main } from './componets/Main/Main';
+import { Footer } from './componets/Footer/Footer';
 
 function App() {
   return (
@@ -13,9 +13,9 @@ function App() {
         <Hero />
       </header>
 
-      <CardsBlock />
+      <Main />
 
-      <Form />
+      <Footer />
     </div>
   );
 }

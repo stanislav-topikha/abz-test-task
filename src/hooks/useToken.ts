@@ -5,8 +5,8 @@ import { Token } from '../types/api';
 
 interface Result {
   token: Token | null;
-  softUpdate: VoidFunction;
-  forcedUpdate: VoidFunction;
+  softUpdate: () => Promise<void>;
+  forcedUpdate: () => Promise<void>;
 }
 
 export const useToken = (): Result => {

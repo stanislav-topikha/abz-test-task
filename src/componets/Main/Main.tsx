@@ -5,7 +5,7 @@ import { Cards } from '../Cards/Cards';
 import { Container } from '../Container/Container';
 import { Loader } from '../Loader/Loader';
 
-export const CardsBlock: React.FC = () => {
+export const Main: React.FC = () => {
   const {
     users, loadMoreUsers, isLastPage, loading,
   } = useUsers();
@@ -20,22 +20,23 @@ export const CardsBlock: React.FC = () => {
 
   return (
     <Container>
-      <Cards users={users} />
+      <main>
+        <Cards users={users} />
 
-      <div className="app__button">
-        <Button
-          onClick={() => loadMoreUsers()}
-          disabled={!shouldShowButton}
-        >
-          {loading ? (
-            <Loader size={16} />
-          ) : (
-            'Show more'
-          )}
-        </Button>
+        <div className="app__button">
+          <Button
+            onClick={() => loadMoreUsers()}
+            disabled={!shouldShowButton}
+          >
+            {loading ? (
+              <Loader size={16} />
+            ) : (
+              'Show more'
+            )}
+          </Button>
 
-      </div>
-
+        </div>
+      </main>
     </Container>
   );
 };
