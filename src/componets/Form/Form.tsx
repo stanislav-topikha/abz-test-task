@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import './form.scss';
 import { Input } from '../Input/Input';
 import { usePositions } from '../../hooks/usePositions';
@@ -11,16 +13,31 @@ import { useToken } from '../../hooks/useToken';
 import { sendUser } from '../../helpers/api';
 
 interface Fields {
-  name: string;
-  email: string;
-  tel: string;
-  image: null | File;
-  position: null | number;
+  name: {
+    check: boolean;
+    value: null | string;
+  }
+  email: {
+    check: boolean;
+    value: null | string;
+  }
+  tel: {
+    check: boolean;
+    value: null | string;
+  }
+  image: {
+    check: boolean;
+    value: null | File;
+  }
+  position: {
+    check: boolean;
+    value: null | number;
+  }
 }
 
 type Validators = {
   [Property in keyof Fields]: (
-    value: Fields[Property]
+    value: NonNullable<Fields[Property]['value']>
   ) => (
     Property extends 'image'
       ? Promise<boolean>
@@ -32,25 +49,37 @@ type Validators = {
 const emailTestPattern = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
 const telTestPattern = /^[+]{0,1}380([0-9]{9})$/;
 
-export const Form: React.FC = () => {
+interface Props {
+  onSuccess: VoidFunction;
+}
+
+export const Form: React.FC<Props> = ({ onSuccess }) => {
   const [loading, setLoading] = useState(false);
-  const [fields, setFields] = useState<Fields>({
-    name: '',
-    email: '',
-    tel: '',
-    image: null,
-    position: null,
+  const [fields, setFields] = useState<Readonly<Fields>>({
+    name: {
+      value: null,
+      check: false,
+    },
+    email: {
+      value: null,
+      check: false,
+    },
+    tel: {
+      value: null,
+      check: false,
+    },
+    image: {
+      value: null,
+      check: false,
+    },
+    position: {
+      value: null,
+      check: false,
+    },
   });
   const [fileError, setFileError] = useState('Upload your image');
   const { token, softUpdate } = useToken();
   const { positions, loading: positionsLoading } = usePositions();
-
-  const updateField = <T extends keyof Fields>(
-    field: T,
-    values: typeof fields[T],
-  ) => {
-    setFields((prev) => ({ ...prev, [field]: values }));
-  };
 
   const validators: Validators = {
     name(value) {
@@ -121,13 +150,35 @@ export const Form: React.FC = () => {
     },
   };
 
-  const isAllFieldsValid = [
-    Boolean(fields.name) && validators.name(fields.name),
-    Boolean(fields.email) && validators.email(fields.email),
-    Boolean(fields.tel) && validators.tel(fields.tel),
-    Boolean(fields.position) && validators.position(fields.position),
-    Boolean(fields.image) && validators.image(fields.image),
-  ].every((statement) => (statement));
+  const updateField = async <T extends keyof Fields> (
+    field: T,
+    value: Fields[T]['value'],
+  ) => {
+    if (!value) {
+      setFields((prev) => ({
+        ...prev,
+        [field]: {
+          value,
+          check: false,
+        },
+      }));
+
+      return;
+    }
+    const isValid = await validators[field](value);
+
+    setFields((prev) => ({
+      ...prev,
+      [field]: {
+        value,
+        check: isValid,
+      },
+    }));
+  };
+
+  const isAllFieldsValid = Object.values(fields)
+    .map(({ check }) => (check))
+    .every((check) => (check));
 
   const handleSubmit:React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -144,23 +195,30 @@ export const Form: React.FC = () => {
       await sendUser({
         token: token.token,
         user: {
-          name: fields.name,
-          email: fields.email,
-          phone: fields.tel,
-          position_id: `${fields.position!}`,
-          photo: fields.image!,
+          name: fields.name.value!,
+          email: fields.email.value!,
+          phone: fields.tel.value!,
+          position_id: `${fields.position.value!}`,
+          photo: fields.image.value!,
         },
       });
     } catch (error) {
-      alert((error as Error).message);
+      toast.error((error as Error).message, {
+        position: 'top-right',
+        autoClose: 5000,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: 'light',
+      });
 
       setLoading(false);
       return;
     }
 
     setLoading(false);
-
-    e.currentTarget.reset();
+    onSuccess();
   };
 
   if (loading) {
@@ -177,7 +235,7 @@ export const Form: React.FC = () => {
       <div className="form__fields">
         <Input
           onChange={(e) => { updateField('name', e.target.value); }}
-          value={fields.name}
+          value={fields.name.value ?? ''}
           validator={validators.name}
           tipMessage="Type your name"
           errorMessage="Invalid name"
@@ -191,7 +249,7 @@ export const Form: React.FC = () => {
 
         <Input
           onChange={(e) => { updateField('email', e.target.value); }}
-          value={fields.email}
+          value={fields.email.value ?? ''}
           type="email"
           tipMessage="Type your email"
           errorMessage="Invalid email"
@@ -206,7 +264,7 @@ export const Form: React.FC = () => {
 
         <Input
           onChange={(e) => { updateField('tel', e.target.value); }}
-          value={fields.tel}
+          value={fields.tel.value ?? ''}
           type="tel"
           tipMessage="+38 (XXX) XXX - XX - XX"
           errorMessage="Provide valid phone number"
@@ -230,7 +288,7 @@ export const Form: React.FC = () => {
         {positions.map(({ name, id }, i) => {
           const isFirst = i === 0;
 
-          if (isFirst && fields.position !== id) {
+          if (isFirst && fields.position.value === null) {
             updateField('position', id);
           }
 
@@ -240,7 +298,9 @@ export const Form: React.FC = () => {
               key={id}
               label={name}
               value={id}
-              onClick={() => (updateField('position', id))}
+              onChange={() => {
+                updateField('position', id);
+              }}
               defaultChecked={isFirst}
             />
           );

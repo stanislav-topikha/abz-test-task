@@ -6,8 +6,11 @@ $button-height: 34px;
   display: flex;
   justify-content: center;
   align-items: center;
+
   min-width: 100px;
   height: $button-height;
+
+  padding: 0 19px;
   background-color: $primary-color;
   border-radius: $button-height/2;
   transition: background-color $transtion-duration;

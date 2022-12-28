@@ -1,6 +1,7 @@
 @import "/src/style/general";
 
 .cards {
+  width: 100%;
   &__title {
     margin-bottom: 50px;
     @include title;

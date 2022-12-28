@@ -7,4 +7,9 @@
     @include title;
     margin-bottom: 50px;
   }
+
+  &__success-image {
+    display: block;
+    margin: 0 auto;
+  }
 }
