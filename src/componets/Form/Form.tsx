@@ -58,7 +58,7 @@ export const Form: React.FC = () => {
     return isValid;
   };
 
-  const validateImage = (file: File): boolean => {
+  const validateImage = async (file: File): Promise<boolean> => {
     const sizeLimit = 5 * 1024 * 1024;
 
     if (file.size >= sizeLimit) {
@@ -73,6 +73,20 @@ export const Form: React.FC = () => {
 
     if (!['jpg', 'jpeg'].includes(fileFormat)) {
       setFileError('Only jpg/jpeg files allowed');
+
+      setFieldsValidity((prev) => ({ ...prev, image: false }));
+
+      return false;
+    }
+
+    const image = new Image();
+
+    image.src = window.URL.createObjectURL(file);
+
+    await image.decode();
+
+    if (image.height < 70 || image.width < 70) {
+      setFileError('Image should be at least 70x70px');
 
       setFieldsValidity((prev) => ({ ...prev, image: false }));
 

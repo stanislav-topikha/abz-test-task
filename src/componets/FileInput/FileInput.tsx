@@ -8,7 +8,7 @@ interface Props extends React.DetailedHTMLProps<
 React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement
 > {
   errorMessage: string
-  validator: (value: File) => boolean
+  validator: (value: File) => Promise<boolean>
 }
 
 export const FileInput: React.FC<Props> = (props) => {
@@ -18,15 +18,17 @@ export const FileInput: React.FC<Props> = (props) => {
   const [value, setValue] = useState<string>('');
   const [error, setError] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
 
-    if (!e.target.files || !validator(e.target.files[0])) {
+    if (!e.target.value || !e.target.files) {
       setError(true);
       return;
     }
 
-    setError(false);
+    const isValid = await validator(e.target.files[0]);
+
+    setError(!isValid);
   };
 
   return (
