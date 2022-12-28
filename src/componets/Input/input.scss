@@ -17,6 +17,7 @@
   }
 
   &__label {
+    display: none;
     position: absolute;
     left: 7px;
     transform: translateY(-50%);
@@ -28,12 +29,21 @@
   }
 
   &__info {
+    display: none;
     position: absolute;
     bottom: -4px;
     transform: translateY(100%);
     margin-left: 11px;
     size: $font-size-small;
     color: $gray-color;
+  }
+
+  &--failed &__label,
+  &--failed &__info,
+  &:focus-within &__info,
+  &:focus-within &__label,
+  &:has(&__field:not(:placeholder-shown)) &__label {
+    display: block;
   }
 
   &--failed &__field {

@@ -9,7 +9,6 @@ import { RadioInput } from '../RadioInput/RadioInput';
 import { FileInput } from '../FileInput/FileInput';
 import { Button } from '../Button/Button';
 import { useToken } from '../../hooks/useToken';
-import { sendUser } from '../../helpers/api';
 
 // eslint-disable-next-line prefer-regex-literals, no-useless-escape
 const emailTestPattern = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
@@ -23,7 +22,7 @@ export const Form: React.FC = () => {
     image: false,
   });
   const [fileError, setFileError] = useState('Upload your image');
-  const { token, softUpdate } = useToken();
+  const { softUpdate } = useToken();
   const { positions, loading } = usePositions();
 
   const validateName = (value: string):boolean => {
