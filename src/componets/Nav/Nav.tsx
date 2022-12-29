@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import './nav.scss';
 import LogoIcon from '../../static/images/logo.svg';
@@ -9,7 +10,10 @@ export const Nav: React.FC = () => (
   <nav className="nav">
     <Container>
       <div className="nav__content">
-        <a href="/">
+        <a
+          href="#"
+          className="nav__logo-link"
+        >
           <img
             src={LogoIcon}
             alt="logo"

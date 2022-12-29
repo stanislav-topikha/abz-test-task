@@ -20,7 +20,7 @@ export const Main: React.FC = () => {
 
   return (
     <Container>
-      <main>
+      <main id="users">
         <Cards users={users} />
 
         <div className="app__button">

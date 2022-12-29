@@ -3,6 +3,10 @@
 .nav {
   background-color: $light-color;
 
+  &__logo-link {
+    display: flex;
+  }
+
   &__content {
     display: flex;
     justify-content: space-between;

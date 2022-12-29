@@ -7,44 +7,39 @@ interface Props extends React.DetailedHTMLProps<
 React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement
 > {
   tipMessage: string;
-  errorMessage: string
-  validator: (value: string) => boolean
+  errorMessage: string;
+  isValid: boolean;
+  validator: (value: string) => boolean;
+  onInput: React.FormEventHandler<HTMLInputElement>;
 }
 
 export const Input: React.FC<Props> = ({
-  validator, errorMessage, tipMessage, placeholder, ...rest
+  validator, errorMessage, tipMessage, placeholder, isValid, onInput, ...rest
 }) => {
+  const [isToched, setIsToched] = useState(false);
   const [focused, setFocused] = useState(false);
-  const [error, setError] = useState(false);
 
-  const validateInput = (value: string) => {
-    const isValid = Boolean(value.trim()) && validator(value);
-
-    setError(!isValid);
+  const handleFocus = () => {
+    setFocused(true);
+    setIsToched(true);
   };
 
-  const handleFocus = () => setFocused(true);
-
-  const handleBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
+  const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
     setFocused(false);
-    validateInput(e.currentTarget.value);
   };
 
   const handleInput: React.FormEventHandler<HTMLInputElement> = (e) => {
-    if (focused) {
-      setError(false);
-
-      return;
-    }
-
-    validateInput(e.currentTarget.value);
+    onInput(e);
+    setIsToched(true);
   };
+
+  const shouldShowError = isToched && !isValid && !focused;
 
   return (
     <div
       className={cn(
         'input',
-        { 'input--failed': error },
+        { 'input--failed': shouldShowError },
       )}
     >
       <div className="input__label">
@@ -61,7 +56,7 @@ export const Input: React.FC<Props> = ({
       />
 
       <div className="input__info">
-        {error ? errorMessage : tipMessage}
+        {shouldShowError ? errorMessage : tipMessage}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
 
   return (
     <Container>
-      <footer className="footer">
+      <footer id="sign-up" className="footer">
         {isSend ? (
           <>
             <h2 className="footer__title">User successfully registered</h2>

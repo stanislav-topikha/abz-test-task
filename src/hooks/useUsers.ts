@@ -6,17 +6,19 @@ interface Result {
   users: User[];
   loading: boolean;
   loadMoreUsers: VoidFunction;
+  refresh: VoidFunction;
   isLastPage: boolean;
 }
 
 export const useUsers = (): Result => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLodaing] = useState(false);
-  const [pagination, setPagination] = useState({
+  const initialPaggination = {
     count: 6,
     page: 1,
     isLastPage: false,
-  });
+  };
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLodaing] = useState(false);
+  const [pagination, setPagination] = useState(initialPaggination);
 
   const loadUsers = async () => {
     if (pagination.isLastPage) {
@@ -39,6 +41,11 @@ export const useUsers = (): Result => {
     }));
   };
 
+  const refresh = async () => {
+    setPagination(initialPaggination);
+    loadUsers();
+  };
+
   useEffect(() => {
     loadUsers();
   }, []);
@@ -48,5 +55,6 @@ export const useUsers = (): Result => {
     loadMoreUsers: loadUsers,
     loading,
     isLastPage: pagination.isLastPage,
+    refresh,
   };
 };

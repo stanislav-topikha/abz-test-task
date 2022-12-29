@@ -29,6 +29,28 @@ export const Card: React.FC<Props> = ({
     setImageSrc(backupAvatar);
   };
 
+  const arrIter = phone.split('').filter((char) => Number.isInteger(+char))[Symbol.iterator]();
+
+  const formatedPhone = [
+    '+',
+    arrIter.next().value,
+    arrIter.next().value,
+    ' (',
+    arrIter.next().value,
+    arrIter.next().value,
+    arrIter.next().value,
+    ') ',
+    arrIter.next().value,
+    arrIter.next().value,
+    arrIter.next().value,
+    ' ',
+    arrIter.next().value,
+    arrIter.next().value,
+    ' ',
+    arrIter.next().value,
+    arrIter.next().value,
+  ].join('');
+
   return (
     <div className="card">
       {tooltipTitle && (
@@ -50,7 +72,7 @@ export const Card: React.FC<Props> = ({
         <a
           className="card__text"
           href={`mailto:${email}`}
-          onMouseOver={(e) => setTooltipText(e.currentTarget.text)}
+          onMouseOver={() => setTooltipText(email)}
           onMouseLeave={() => setTooltipText(null)}
         >
           {email}
@@ -58,10 +80,10 @@ export const Card: React.FC<Props> = ({
         <a
           className="card__text"
           href={`tel:${phone}`}
-          onMouseOver={(e) => setTooltipText(e.currentTarget.text)}
+          onMouseOver={() => setTooltipText(formatedPhone)}
           onMouseLeave={() => setTooltipText(null)}
         >
-          {phone}
+          {formatedPhone}
         </a>
       </div>
     </div>

@@ -1,8 +1,10 @@
 @import "/src/style/general";
 
 .hero {
-  min-height: 500px;
+  height: 500px;
+
   margin: 0 calc(var(--container-padding) * -1);
+
   background: (
     linear-gradient(
       rgba(0, 0, 0, 0.5),
@@ -14,16 +16,26 @@
   background-size: cover, auto 200%;
 
   @include laptop {
-    min-width: 650px;
+    height: 650px;
+    background-position: center, 53.8% 82.5%;
+    background-size: cover, auto 234%;
   }
 
   &__content {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     max-width: 380px;
+    height: 100%;
+
     margin: 0 auto;
     padding: 40px 0;
+
+    @include tablet {
+      justify-content: center;
+      padding: 0;
+    }
   }
 
   &__title {

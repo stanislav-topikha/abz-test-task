@@ -23,7 +23,7 @@
     transform: translateY(-50%);
 
     padding: 0 4px;
-    size: $font-size-small;
+    font-size: $font-size-small;
     color: $gray-color;
     background-color: $background-color;
   }
@@ -34,7 +34,7 @@
     bottom: -4px;
     transform: translateY(100%);
     margin-left: 11px;
-    size: $font-size-small;
+    font-size: $font-size-small;
     color: $gray-color;
   }
 
