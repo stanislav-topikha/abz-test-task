@@ -3,9 +3,11 @@ import './footer.scss';
 import successImage from '../../static/images/success-image.svg';
 import { Container } from '../Container/Container';
 import { Form } from '../Form/Form';
+import { useUsers } from '../../hooks/useUsers';
 
 export const Footer: React.FC = () => {
   const [isSend, setIsSend] = useState(false);
+  const { refresh } = useUsers();
 
   return (
     <Container>
@@ -24,7 +26,12 @@ export const Footer: React.FC = () => {
           <>
             <h2 className="footer__title">Working with POST request</h2>
 
-            <Form onSuccess={() => (setIsSend(true))} />
+            <Form
+              onSuccess={() => {
+                setIsSend(true);
+                setTimeout(refresh, 1000);
+              }}
+            />
           </>
         )}
       </footer>

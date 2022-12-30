@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, {
+  createContext, PropsWithChildren, useContext, useEffect, useState,
+} from 'react';
 import { getUsers } from '../helpers/api';
 import { User } from '../types/api';
 
@@ -10,22 +12,22 @@ interface Result {
   isLastPage: boolean;
 }
 
-export const useUsers = (): Result => {
-  const initialPaggination = {
+const useUsersFunctionality = (): Result => {
+  const initialPagination = {
     count: 6,
     page: 1,
     isLastPage: false,
   };
   const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLodaing] = useState(false);
-  const [pagination, setPagination] = useState(initialPaggination);
+  const [loading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState(initialPagination);
 
   const loadUsers = async () => {
     if (pagination.isLastPage) {
       return;
     }
 
-    setLodaing(true);
+    setLoading(true);
 
     const { users: usersFromServer, isLastPage } = await getUsers(
       pagination.page,
@@ -33,7 +35,7 @@ export const useUsers = (): Result => {
     );
 
     setUsers((prev) => [...prev, ...usersFromServer]);
-    setLodaing(false);
+    setLoading(false);
     setPagination(({ count, page }) => ({
       count,
       page: page + 1,
@@ -42,7 +44,8 @@ export const useUsers = (): Result => {
   };
 
   const refresh = async () => {
-    setPagination(initialPaggination);
+    setPagination(initialPagination);
+    setUsers([]);
     loadUsers();
   };
 
@@ -58,3 +61,13 @@ export const useUsers = (): Result => {
     refresh,
   };
 };
+
+const UsersCtx = createContext<Result>({} as Result);
+
+export const UsersProvider = ({ children }: PropsWithChildren) => (
+  <UsersCtx.Provider value={useUsersFunctionality()}>
+    {children}
+  </UsersCtx.Provider>
+);
+
+export const useUsers = () => (useContext(UsersCtx));
