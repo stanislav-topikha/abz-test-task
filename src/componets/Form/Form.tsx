@@ -235,7 +235,6 @@ export const Form: React.FC<Props> = ({ onSuccess }) => {
       <div className="form__fields">
         <Input
           onInput={(e) => { updateField('name', e.currentTarget.value); }}
-          value={fields.name.value ?? ''}
           isValid={fields.name.check}
           validator={validators.name}
           tipMessage="Type your name"
@@ -250,7 +249,6 @@ export const Form: React.FC<Props> = ({ onSuccess }) => {
 
         <Input
           onInput={(e) => { updateField('email', e.currentTarget.value); }}
-          value={fields.email.value ?? ''}
           isValid={fields.email.check}
           type="email"
           tipMessage="Type your email"
@@ -266,7 +264,6 @@ export const Form: React.FC<Props> = ({ onSuccess }) => {
 
         <Input
           onInput={(e) => { updateField('tel', e.currentTarget.value); }}
-          value={fields.tel.value ?? ''}
           isValid={fields.tel.check}
           type="tel"
           tipMessage="+38 (XXX) XXX - XX - XX"
