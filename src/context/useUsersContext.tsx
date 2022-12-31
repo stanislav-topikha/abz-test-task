@@ -1,5 +1,6 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
 import React, {
-  createContext, PropsWithChildren, useContext, useEffect, useState,
+  createContext, PropsWithChildren, useCallback, useContext, useEffect, useState,
 } from 'react';
 import { getUsers } from '../helpers/api';
 import { User } from '../types/api';
@@ -12,7 +13,9 @@ interface Result {
   isLastPage: boolean;
 }
 
-const useUsersFunctionality = (): Result => {
+const UsersCtx = createContext<Result>({} as Result);
+
+export const UsersProvider = ({ children }: PropsWithChildren) => {
   const initialPagination = {
     count: 6,
     page: 1,
@@ -43,31 +46,29 @@ const useUsersFunctionality = (): Result => {
     }));
   };
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     setPagination(initialPagination);
     setUsers([]);
-    loadUsers();
-  };
+    await loadUsers();
+  }, [UsersCtx.Provider]);
 
   useEffect(() => {
     loadUsers();
   }, []);
 
-  return {
-    users,
-    loadMoreUsers: loadUsers,
-    loading,
-    isLastPage: pagination.isLastPage,
-    refresh,
-  };
+  return (
+    <UsersCtx.Provider
+      value={{
+        users,
+        loadMoreUsers: loadUsers,
+        loading,
+        isLastPage: pagination.isLastPage,
+        refresh,
+      }}
+    >
+      {children}
+    </UsersCtx.Provider>
+  );
 };
-
-const UsersCtx = createContext<Result>({} as Result);
-
-export const UsersProvider = ({ children }: PropsWithChildren) => (
-  <UsersCtx.Provider value={useUsersFunctionality()}>
-    {children}
-  </UsersCtx.Provider>
-);
 
 export const useUsers = () => (useContext(UsersCtx));

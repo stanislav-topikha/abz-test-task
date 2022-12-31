@@ -3,7 +3,7 @@ import './footer.scss';
 import successImage from '../../static/images/success-image.svg';
 import { Container } from '../Container/Container';
 import { Form } from '../Form/Form';
-import { useUsers } from '../../hooks/useUsers';
+import { useUsers } from '../../context/useUsersContext';
 
 export const Footer: React.FC = () => {
   const [isSend, setIsSend] = useState(false);
@@ -29,7 +29,7 @@ export const Footer: React.FC = () => {
             <Form
               onSuccess={() => {
                 setIsSend(true);
-                setTimeout(refresh, 1000);
+                refresh();
               }}
             />
           </>

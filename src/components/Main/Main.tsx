@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUsers } from '../../hooks/useUsers';
+import { useUsers } from '../../context/useUsersContext';
 import { Button } from '../Button/Button';
 import { Cards } from '../Cards/Cards';
 import { Container } from '../Container/Container';
@@ -16,26 +16,25 @@ export const Main: React.FC = () => {
     );
   }
 
-  const shouldShowButton = !isLastPage && !loading;
-
   return (
     <Container>
       <main id="users">
         <Cards users={users} />
 
-        <div className="app__button">
-          <Button
-            onClick={() => loadMoreUsers()}
-            disabled={!shouldShowButton}
-          >
-            {loading ? (
-              <Loader size={16} />
-            ) : (
-              'Show more'
-            )}
-          </Button>
-
-        </div>
+        {!isLastPage && (
+          <div className="app__button">
+            <Button
+              onClick={() => loadMoreUsers()}
+              disabled={loading}
+            >
+              {loading ? (
+                <Loader size={16} />
+              ) : (
+                'Show more'
+              )}
+            </Button>
+          </div>
+        )}
       </main>
     </Container>
   );
