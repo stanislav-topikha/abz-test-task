@@ -1,4 +1,4 @@
-### [Demo](https://stanislav-topikha.github.io/abz-test-task/)
+[Demo](https://stanislav-topikha.github.io/abz-test-task/)
 
 Stack: React/TS/Sass
 
